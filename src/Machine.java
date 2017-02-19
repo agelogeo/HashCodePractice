@@ -12,18 +12,25 @@ public class Machine {
     private int h;
     private int[][] pizza;
 
-    public Machine(){
-        ReadingFile();
+    public boolean CutPizza(){
+        return false;
     }
 
-    public void ReadingFile(){
-        ReadInputFile();
+    public Machine(){
+        if(ReadInputFile()){
+            System.out.println("File read!");
+            if(CutPizza())
+                System.out.println("CutPizza ok");
+            else
+                System.out.println("CutPizza error");
+        }else{
+            System.out.println("Error input file!");
+        }
     }
 
     public boolean ReadInputFile(){
         try {
             infile = new Scanner(new File("Files/Input.txt"));
-            System.out.println("File read!");
             if(ReadFirstLine()){
                 return ReadValues();
             }else{
@@ -90,4 +97,6 @@ public class Machine {
         System.out.println("R: "+pizza.length +" C: "+pizza[0].length+" L: "+l+" H: "+h);
         return true;
     }
+
+
 }
