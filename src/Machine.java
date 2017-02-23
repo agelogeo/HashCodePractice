@@ -1,7 +1,6 @@
 
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,21 +14,23 @@ public class Machine {
     private ArrayList<Video> videos = new ArrayList<Video>();
     private ArrayList<Endpoint> endpoints = new ArrayList<Endpoint>();
     private ArrayList<Request> requests = new ArrayList<Request>();
+    private ArrayList<Server> servers = new ArrayList<Server>();
 
 
 
 
-    public boolean CutPizza(){
+
+    public boolean OptimizeSystem(){
         return false;
     }
 
     public Machine(){
         if(ReadInputFile()){
             System.out.println("File read!");
-            if(CutPizza())
-                System.out.println("CutPizza ok");
+            if(OptimizeSystem())
+                System.out.println("OptimizeSystem ok");
             else
-                System.out.println("CutPizza error");
+                System.out.println("OptimizeSystem error");
         }else{
             System.out.println("Error input file!");
         }
@@ -52,6 +53,20 @@ public class Machine {
 
     public boolean ReadFirstLine(){
         if(infile.hasNextInt())
+            v=infile.nextInt();
+        else {
+            System.out.println("Reading error : v");
+            return false;
+        }
+
+        if(infile.hasNextInt())
+            e=infile.nextInt();
+        else {
+            System.out.println("Reading error : e");
+            return false;
+        }
+
+        if(infile.hasNextInt())
             r=infile.nextInt();
         else {
             System.out.println("Reading error : r");
@@ -66,47 +81,64 @@ public class Machine {
         }
 
         if(infile.hasNextInt())
-            l=infile.nextInt();
+            x=infile.nextInt();
         else {
-            System.out.println("Reading error : l");
+            System.out.println("Reading error : x");
             return false;
         }
 
-        if(infile.hasNextInt())
-            h=infile.nextInt();
-        else {
-            System.out.println("Reading error : h");
-            return false;
+        for(int i=0;i<c;i++){
+            servers.add(new Server(i,x));
         }
-        infile.nextLine();
+        //infile.nextLine();
+        System.out.println("v:"+v);
+        System.out.println("e:"+e);
+        System.out.println("r:"+r);
+        System.out.println("c:"+c);
+        System.out.println("x:"+x);
+
         return true;
     }
 
 
     public boolean ReadValues(){
-        pizza=new int[r][c];
-        for(int i=0;i<r;i++){
-            String row;
-            if(infile.hasNext()){
-                row = infile.nextLine();
-                System.out.println(row);
-                for(int j=0;j<c;j++){
-                    char cell = row.charAt(j);
-                    if(cell=='T')
-                        pizza[i][j]=0;
-                    else if(cell=='M')
-                        pizza[i][j]=1;
-                }
-            }else{
-                System.out.println("reading values error , row :"+i+"  r : "+r+" c : "+c);
-                return false;
-            }
+        for(int i=0;i<v;i++){
+            videos.add(new Video(i,infile.nextInt()));
         }
-        System.out.println("R: "+pizza.length +" C: "+pizza[0].length+" L: "+l+" H: "+h);
+
+        for(int i=0;i<e;i++){
+            Endpoint endpoint = new Endpoint();
+            endpoint.setId(i);
+            endpoint.setData_center_lat(infile.nextInt());
+            ArrayList<ServerLat> serverLats = new ArrayList<ServerLat>();
+            int size = infile.nextInt();
+            for(int j=0;j<size;j++){
+                serverLats.add(new ServerLat(servers.get(infile.nextInt()),infile.nextInt()));
+            }
+            endpoint.setList_servers(serverLats);
+            endpoints.add(endpoint);
+        }
+
+        for(int i=0;i<r;i++){
+            Request request = new Request();
+            request.setId(i);
+            request.setVideo(videos.get(infile.nextInt()));
+            request.setEndpoint(endpoints.get(infile.nextInt()));
+            request.setRequests(infile.nextInt());
+            requests.add(request);
+        }
+
+
+
+
+
+
+
+
         return true;
     }
 
-    public void DrawFile(){
+    /*public void DrawFile(){
         try {
 
             String content = "This is the content to write into file";
@@ -121,13 +153,13 @@ public class Machine {
             FileWriter fw = new FileWriter(output.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
 
-            /*bw.write("MinMax : "+minmax+'\n');
+            *//*bw.write("MinMax : "+minmax+'\n');
             String ct="C : ";
             for(int c1=0;c1<50;c1++)
                 if(c[c1]!=0)
                     ct+=c[c1]+"|";
             bw.write(ct+'\n');
-*/
+*//*
 
 
 
@@ -141,7 +173,7 @@ public class Machine {
         }
 
         return ;
-    }
+    }*/
 
 
 }
