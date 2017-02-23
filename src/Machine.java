@@ -25,7 +25,8 @@ public class Machine {
         for(int i=0;i<requests.size();i++){
             if(requests.get(i).getVideo().equals(maxV)) {
                 isRequested = true;
-                RequestedList.add(requests.get(i));
+                maxV.getList_requests().add(new RequestOfEndpoints(requests.get(i).getEndpoint(),requests.get(i).getRequests()));
+
             }
         }
         if(!isRequested){
@@ -34,6 +35,15 @@ public class Machine {
                     ServerLat maxLat = getMaxLat(endpoints.get(i));
                     servers.get(maxLat.getServer().getId()).getVideosList().add(maxV);
                     maxV.setChecked(true);
+                }
+            }
+        }else{
+            for(int i=0;i<maxV.getList_requests().size();i++){
+                if(maxV.getList_requests().get(i).getEndpoint().getList_servers().size()==0){
+                    CenterVideos.add(maxV);
+                    maxV.setChecked(true);
+                }else{
+                    
                 }
             }
         }
