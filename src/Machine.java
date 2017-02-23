@@ -15,13 +15,21 @@ public class Machine {
     private ArrayList<Endpoint> endpoints = new ArrayList<Endpoint>();
     private ArrayList<Request> requests = new ArrayList<Request>();
     private ArrayList<Server> servers = new ArrayList<Server>();
-
-
-
+    private ArrayList<Video> CenterVideos = new ArrayList<Video>();
 
 
     public boolean OptimizeSystem(){
-        return false;
+        for(int i=0;i<videos.size();i++){
+            if(!videos.get(i).isChecked()){
+                if(videos.get(i).getSize()>x){
+                    CenterVideos.add(videos.get(i));
+                    videos.get(i).setChecked(true);
+                    System.out.println("ID : "+videos.get(i).getId()+" Size : "+videos.get(i).getSize()+" stays on data center!");
+                }
+            }
+
+        }
+        return true;
     }
 
     public Machine(){
@@ -38,7 +46,7 @@ public class Machine {
 
     public boolean ReadInputFile(){
         try {
-            infile = new Scanner(new File("Files/me_at_the_zoo.in"));
+            infile = new Scanner(new File("Files/Output.txt"));
             if(ReadFirstLine()){
                 return ReadValues();
             }else{
@@ -127,16 +135,11 @@ public class Machine {
             request.setRequests(infile.nextInt());
             requests.add(request);
         }
-
-
-
-
-
-
-
-
         return true;
     }
+
+
+
 
     /*public void DrawFile(){
         try {
