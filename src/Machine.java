@@ -96,7 +96,8 @@ public class Machine {
 
     public boolean ReadInputFile(){
         try {
-            infile = new Scanner(new File("Files/Output.txt"));
+            infile = new Scanner(new File("Files/videos_worth_spreading.in"));
+            //infile = new Scanner(new File("Files/Output.txt"));
             if(ReadFirstLine()){
                 return ReadValues();
             }else{
