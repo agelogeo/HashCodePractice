@@ -33,10 +33,9 @@ public class Machine {
                 if(endpoints.get(i).getList_servers().size()!=0){
                     ServerLat maxLat = getMaxLat(endpoints.get(i));
                     servers.get(maxLat.getServer().getId()).getVideosList().add(maxV);
+                    maxV.setChecked(true);
                 }
             }
-        }else{
-            
         }
 
 
@@ -85,7 +84,9 @@ public class Machine {
             System.out.println("File read!");
             if(RemoveBigVideos()) {
                 System.out.println("RemoveBigVideos ok");
-                RemoveOtherVideos();
+                for(int i=0;i<videos.size();i++)
+                    RemoveOtherVideos();
+                DrawFile();
             }else
                 System.out.println("OptimizeSystem error");
         }else{
@@ -190,33 +191,37 @@ public class Machine {
 
 
 
-    /*public void DrawFile(){
+    public void DrawFile(){
         try {
 
-            String content = "This is the content to write into file";
-
-            File output = new File("Files/Output.txt");
+            File output = new File("Files/Output2.txt");
 
             if (output.exists())
                 output.delete();
             output.createNewFile();
 
-
             FileWriter fw = new FileWriter(output.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
+            int count = 0;
+            ArrayList<Server> countList = new ArrayList<Server>();
+            for(int i=0;i<servers.size();i++){
+                if(servers.get(i).getVideosList().size()!=0) {
+                    count++;
+                    countList.add(servers.get(i));
+                }
+            }
+            System.out.println(count);
+            if(count!=0){
+                bw.write(count+"\n");
+                for(int i=0;i<countList.size();i++){
+                    if(countList.get(i).getVideosList().size()!=0){
+                        bw.write(countList.get(i).getId()+" "+countList.get(i).PrintVideos());
+                    }
 
-            *//*bw.write("MinMax : "+minmax+'\n');
-            String ct="C : ";
-            for(int c1=0;c1<50;c1++)
-                if(c[c1]!=0)
-                    ct+=c[c1]+"|";
-            bw.write(ct+'\n');
-*//*
+                }
+            }
 
-
-
-
-            //bw.close();
+            bw.close();
 
             System.out.println("Done");
 
@@ -225,7 +230,7 @@ public class Machine {
         }
 
         return ;
-    }*/
+    }
 
 
 }
