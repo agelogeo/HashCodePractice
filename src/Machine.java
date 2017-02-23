@@ -1,15 +1,23 @@
 
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Machine {
     private Scanner infile;
+    private int v;
+    private int e;
     private int r;
     private int c;
-    private int l;
-    private int h;
-    private int[][] pizza;
+    private int x;
+    private ArrayList<Video> videos = new ArrayList<Video>();
+    private ArrayList<Endpoint> endpoints = new ArrayList<Endpoint>();
+    private ArrayList<Request> requests = new ArrayList<Request>();
+
+
+
 
     public boolean CutPizza(){
         return false;
