@@ -17,8 +17,56 @@ public class Machine {
     private ArrayList<Server> servers = new ArrayList<Server>();
     private ArrayList<Video> CenterVideos = new ArrayList<Video>();
 
+    public void RemoveOtherVideos(){
+        Video maxV = getMaxVideo();
 
-    public boolean OptimizeSystem(){
+        boolean isRequested = false;
+        ArrayList<Request> RequestedList = new ArrayList<Request>();
+        for(int i=0;i<requests.size();i++){
+            if(requests.get(i).getVideo().equals(maxV)) {
+                isRequested = true;
+                RequestedList.add(requests.get(i));
+            }
+        }
+        if(!isRequested){
+            for(int i=0;i<endpoints.size();i++){
+                if(endpoints.get(i).getList_servers().size()!=0){
+                    ServerLat maxLat = getMaxLat(endpoints.get(i));
+                    servers.get(maxLat.getServer().getId()).getVideosList().add(maxV);
+                }
+            }
+        }else{
+            
+        }
+
+
+    }
+
+    private ServerLat getMaxLat(Endpoint endpoint){
+        ServerLat maxLat=null;
+        for(int i=0;i<endpoint.getList_servers().size();i++){
+            if(maxLat==null){
+                maxLat = endpoint.getList_servers().get(i);
+            }else if(endpoint.getList_servers().get(i).getLatency()>maxLat.getLatency())
+                maxLat=endpoint.getList_servers().get(i);
+        }
+        return maxLat;
+    }
+
+    private Video getMaxVideo(){
+        Video maxV = null;
+        for(int i=0;i<videos.size();i++){
+            if(!videos.get(i).isChecked()){
+                if(maxV==null){
+                    maxV = videos.get(i);
+                }else if(videos.get(i).getSize()>maxV.getSize())
+                    maxV=videos.get(i);
+            }
+        }
+        return maxV;
+    }
+
+    public boolean RemoveBigVideos(){
         for(int i=0;i<videos.size();i++){
             if(!videos.get(i).isChecked()){
                 if(videos.get(i).getSize()>x){
@@ -35,9 +83,10 @@ public class Machine {
     public Machine(){
         if(ReadInputFile()){
             System.out.println("File read!");
-            if(OptimizeSystem())
-                System.out.println("OptimizeSystem ok");
-            else
+            if(RemoveBigVideos()) {
+                System.out.println("RemoveBigVideos ok");
+                RemoveOtherVideos();
+            }else
                 System.out.println("OptimizeSystem error");
         }else{
             System.out.println("Error input file!");
