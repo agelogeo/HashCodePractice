@@ -1,7 +1,6 @@
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Machine {
@@ -30,7 +29,7 @@ public class Machine {
 
     public boolean ReadInputFile(){
         try {
-            infile = new Scanner(new File("Files/Input.txt"));
+            infile = new Scanner(new File("Files/me_at_the_zoo.in"));
             if(ReadFirstLine()){
                 return ReadValues();
             }else{
@@ -75,6 +74,7 @@ public class Machine {
         return true;
     }
 
+
     public boolean ReadValues(){
         pizza=new int[r][c];
         for(int i=0;i<r;i++){
@@ -96,6 +96,43 @@ public class Machine {
         }
         System.out.println("R: "+pizza.length +" C: "+pizza[0].length+" L: "+l+" H: "+h);
         return true;
+    }
+
+    public void DrawFile(){
+        try {
+
+            String content = "This is the content to write into file";
+
+            File output = new File("Files/Output.txt");
+
+            if (output.exists())
+                output.delete();
+            output.createNewFile();
+
+
+            FileWriter fw = new FileWriter(output.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            /*bw.write("MinMax : "+minmax+'\n');
+            String ct="C : ";
+            for(int c1=0;c1<50;c1++)
+                if(c[c1]!=0)
+                    ct+=c[c1]+"|";
+            bw.write(ct+'\n');
+*/
+
+
+
+
+            //bw.close();
+
+            System.out.println("Done");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ;
     }
 
 
